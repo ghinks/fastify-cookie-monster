@@ -11,6 +11,10 @@
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node10": "^1.0.7",
+    "husky": "^5.0.9",
     "typescript": "^4.1.5"
+  },
+  "husky": {
+    "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
   }
 }
