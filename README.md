@@ -12,5 +12,3 @@ being passed is provided by fastify cookie monster.
 | the buckets | the aggregation buckets defaults are 0-100, 101-500,501-1000,1001-2000, >2001|
 
 The intent is to track the aggregation over the duration of the interval and log out the results.
-
-
