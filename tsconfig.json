@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node10/tsconfig.json",
+  "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "sourceMap": true
+  }
+}

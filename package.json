@@ -1,0 +1,16 @@
+{
+  "name": "@gvhinks/fastify-cookie-monster",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@tsconfig/node10": "^1.0.7",
+    "typescript": "^4.1.5"
+  }
+}
