@@ -76,4 +76,4 @@ jobs:
           repository: ${{ secrets.ACTIONS_GITHUB_USERNAME }}/fastify-cookie-monster
           registry: docker.pkg.github.com
           tags: latest
-          dockerfile: Dockerfile.integration
+          file: Dockerfile.integration
