@@ -6,8 +6,18 @@
   "scripts": {
     "build": "tsc"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://github.com:ghinks/fastify-cookie-monster.git"
+  },
+  "keywords": [
+    "fastify",
+    "cookie",
+    "statistics",
+    "size"
+  ],
+  "homepage": "https://github.com/ghinks/fastify-cookie-monster#readme",
+  "author": "Glenn Hinks <ghinks@yahoo.com>",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
