@@ -91,4 +91,4 @@ jobs:
           name: gvhinks-fastify-cookie-monster-tar-ball
       - name: test-globally-installed
         run: |
-          npm install "gvhinks-fastify-cookie-monster-${{ steps.extract_version.outputs.version }}.tgz"
+          npm install -g "gvhinks-fastify-cookie-monster-${{ steps.extract_version.outputs.version }}.tgz"
