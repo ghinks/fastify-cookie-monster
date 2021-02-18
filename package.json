@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "tap src/**/*.test.ts",
-    "lint": "src/**/*.ts"
+    "lint": "eslint src/**/*.ts"
   },
   "repository": {
     "type": "git",
