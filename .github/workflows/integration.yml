@@ -1,4 +1,4 @@
-name: renovate
+name: integrate
 on:
   push:
     branches:
