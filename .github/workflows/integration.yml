@@ -73,9 +73,9 @@ jobs:
       - name: docker-build-publish-fastify-server-to-docker-registry
         uses: docker/build-push-action@v1
         with:
-          username: ${{ secrets.GIT_ACTIONS_DOCKER_USERNAME }}
-          password: ${{ secrets.GIT_ACTIONS_FASTIFY_COOKIE_MONSTER }}
-          repository: ${{ secrets.GIT_ACTIONS_DOCKER_USERNAME }}/fastify-cookie-monster-store
+          username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          password: ${{ secrets.DOCKER_REGISTRY_FASTIFY }}
+          repository: ${{ secrets.DOCKER_REGISTRY_USERNAME }}/fastify-cookie-monster-store
           registry: registry.hub.docker.com
           tags: latest
           dockerfile: Dockerfile.integration
@@ -102,6 +102,18 @@ jobs:
           registry: docker.pkg.github.com
           tags: latest
           dockerfile: Dockerfile.integration
+
+  ##################################################
+  #    _____           _                                   _     _
+  #   |_   _|         | |                                 | |   (_)
+  #     | |    _ __   | |_    ___    __ _   _ __    __ _  | |_   _    ___    _ __
+  #     | |   | '_ \  | __|  / _ \  / _` | | '__|  / _` | | __| | |  / _ \  | '_ \
+  #    _| |_  | | | | | |_  |  __/ | (_| | | |    | (_| | | |_  | | | (_) | | | | |
+  #   |_____| |_| |_|  \__|  \___|  \__, | |_|     \__,_|  \__| |_|  \___/  |_| |_|
+  #                                  __/ |
+  #                                 |___/
+  #
+  ##################################################
   integration-fastify:
     needs: publish
     runs-on: ubuntu-latest
