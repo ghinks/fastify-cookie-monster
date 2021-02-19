@@ -93,7 +93,7 @@ jobs:
       # docker registry
       #
       ##################################################
-      - name: docker-build-publish-fastify-server-to-github-registry
+      - name: docker-build-publish-fastify-server-to-docker-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.GIT_ACTIONS_DOCKER_USERNAME }}
