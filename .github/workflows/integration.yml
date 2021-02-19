@@ -74,7 +74,7 @@ jobs:
           context: .
           username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ secrets.ACTIONS_GITHUB_USERNAME }}/fastify-cookie-monster
+          repository: ${{ secrets.ACTIONS_GITHUB_USERNAME }}/fastify-cookie-monster/fastify-cookie-monster-integration
           registry: docker.pkg.github.com
           tags: latest
           file: Dockerfile.integration
