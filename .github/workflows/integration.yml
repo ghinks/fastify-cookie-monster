@@ -9,6 +9,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     name: "Node 14"
+    id: node_14
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -102,3 +103,14 @@ jobs:
           registry: docker.pkg.github.com
           tags: latest
           dockerfile: Dockerfile.integration
+  integration-fastify:
+    needs: publish
+    runs-on: ubuntu-latest
+    services:
+      fastify:
+        image: ghinks/fastify-cookie-monster-store
+        ports:
+          - 3000: 3000
+    steps:
+      - name: curl-route-hit
+        run: "curl localhost:3000/"
