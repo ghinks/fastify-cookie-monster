@@ -84,3 +84,21 @@ jobs:
           registry: docker.pkg.github.com
           tags: latest
           dockerfile: Dockerfile.integration
+      ##################################################
+      #
+      #  The default registry is the docker public registry
+      #  however for the purposes of comparison the author
+      #  has included the registry so that the step is
+      #  easier to compare to the publish to the github
+      # docker registry
+      #
+      ##################################################
+      - name: docker-build-publish-fastify-server-to-github-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.GIT_ACTIONS_DOCKER_USERNAME }}
+          password: ${{ secrets.GIT_ACTIONS_FASTIFY_COOKIE_MONSTER }}
+          repository: ${{ secrets.GIT_ACTIONS_DOCKER_USERNAME }}/fastify-cookie-monster-store
+          registry: registry.hub.docker.com
+          tags: latest
+          dockerfile: Dockerfile.integration
