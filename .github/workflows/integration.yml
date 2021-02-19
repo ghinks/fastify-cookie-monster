@@ -61,6 +61,48 @@ jobs:
           name: gvhinks-fastify-cookie-monster-tar-ball
           path: "gvhinks-fastify-cookie-monster-${{ steps.extract_version.outputs.version }}.tgz"
 
+      ##################################################
+      #
+      #  The default registry is the docker public registry
+      #  however for the purposes of comparison the author
+      #  has included the registry so that the step is
+      #  easier to compare to the publish to the github
+      # docker registry
+      #
+      ##################################################
+      - name: docker-build-publish-fastify-server-to-docker-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          password: ${{ secrets.DOCKER_REGISTRY_FASTIFY }}
+          repository: ${{ secrets.DOCKER_REGISTRY_USERNAME }}/fastify-cookie-monster-store
+          registry: registry.hub.docker.com
+          tags: latest
+          dockerfile: Dockerfile.integration
+      ##################################################
+      #
+      # note the github docker registry requires the docker
+      # repository to be :user/:repo_name/image_name
+      # The registry is the internal github docker registry
+      #
+      ##################################################
+      #      - name: docker-build-publish-fastify-server-to-github-registry
+      #        uses: docker/build-push-action@v2
+      #        with:
+      #          context: .
+      #          tags: latest
+      #          file: Dockerfile.integration
+      #          push: true
+      - name: docker-build-publish-fastify-server-to-github-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          repository: ghinks/fastify-cookie-monster/fastify-cookie-monster-store
+          registry: docker.pkg.github.com
+          tags: latest
+          dockerfile: Dockerfile.integration
+
   ##################################################
   #    _____           _                                   _     _
   #   |_   _|         | |                                 | |   (_)
@@ -72,23 +114,14 @@ jobs:
   #                                 |___/
   #
   ##################################################
-  integration-testing:
-    runs-on: ubuntu-latest
+  integration-fastify:
     needs: publish
+    runs-on: ubuntu-latest
+    services:
+      fastify:
+        image: ghinks/fastify-cookie-monster-store
+        ports:
+          - 3000:3000
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-      - name: Extract version
-        id: extract_version
-        uses: Saionaro/extract-package-version@v1.1.1
-      - name: Print version
-        run: echo ${{ steps.extract_version.outputs.version }}
-      - name: download-tarball
-        uses: actions/download-artifact@v2
-        with:
-          name: gvhinks-fastify-cookie-monster-tar-ball
-      - name: test-globally-installed
-        run: |
-          npm install -g "gvhinks-fastify-cookie-monster-${{ steps.extract_version.outputs.version }}.tgz"
+      - name: curl-route-hit
+        run: curl 127.0.0.1:3000 --verbose -m 5 --connect-timeout 10
