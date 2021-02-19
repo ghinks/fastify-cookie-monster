@@ -78,3 +78,4 @@ jobs:
           registry: docker.pkg.github.com
           tags: latest
           file: Dockerfile.integration
+          push: true
