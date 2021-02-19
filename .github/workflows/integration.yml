@@ -68,10 +68,19 @@ jobs:
       # The registry is the internal github docker registry
       #
       ##################################################
+      #      - name: docker-build-publish-fastify-server-to-github-registry
+      #        uses: docker/build-push-action@v2
+      #        with:
+      #          context: .
+      #          tags: latest
+      #          file: Dockerfile.integration
+      #          push: true
       - name: docker-build-publish-fastify-server-to-github-registry
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v1
         with:
-          context: .
+          username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ secrets.ACTIONS_GITHUB_USERNAME }}/fastify-cookie-monster/fastify-cookie-monster-store
+          registry: docker.pkg.github.com
           tags: latest
-          file: Dockerfile.integration
-          push: true
+          dockerfile: Dockerfile.integration
