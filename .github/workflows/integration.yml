@@ -78,9 +78,9 @@ jobs:
       - name: docker-build-publish-fastify-server-to-github-registry
         uses: docker/build-push-action@v1
         with:
-          username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ secrets.ACTIONS_GITHUB_USERNAME }}/fastify-cookie-monster/fastify-cookie-monster-store
+          repository: ghinks/fastify-cookie-monster/fastify-cookie-monster-store
           registry: docker.pkg.github.com
           tags: latest
           dockerfile: Dockerfile.integration
