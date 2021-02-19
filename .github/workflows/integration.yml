@@ -109,7 +109,7 @@ jobs:
       fastify:
         image: ghinks/fastify-cookie-monster-store
         ports:
-          - 3000: 3000
+          - 3000:3000
     steps:
       - name: curl-route-hit
         run: "curl localhost:3000/"
