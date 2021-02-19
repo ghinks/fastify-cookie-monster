@@ -9,7 +9,6 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     name: "Node 14"
-    id: node_14
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
