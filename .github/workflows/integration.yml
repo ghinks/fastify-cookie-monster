@@ -112,4 +112,4 @@ jobs:
           - 3000:3000
     steps:
       - name: curl-route-hit
-        run: "curl localhost:3000/"
+        run: "curl fastify:3000/"
