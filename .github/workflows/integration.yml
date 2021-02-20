@@ -18,7 +18,6 @@ jobs:
   #
   ##################################################
   integration-fastify:
-    needs: publish
     runs-on: ubuntu-latest
     services:
       fastify:
