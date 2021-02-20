@@ -1,9 +1,13 @@
-const myplugin = require("../dist/index");
+const cookieMonsterPlugin = require("../dist/index");
 const fastify = require("fastify")({
   logger: true,
 });
 
-fastify.register(myplugin);
+const cmConf = {
+  interval: 3600,
+  buckets: [100, 250, 500, 1000],
+};
+fastify.register(cookieMonsterPlugin, cmConf);
 
 // Declare a route
 fastify.get("/", function (request, reply) {
