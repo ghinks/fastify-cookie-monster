@@ -126,3 +126,5 @@ jobs:
     steps:
       - name: curl-route-hit
         run: curl 127.0.0.1:3000 --verbose -m 5 --connect-timeout 10
+      - name: integration-test-suite
+        run: tap integration/tests/smoke.tests.ts
