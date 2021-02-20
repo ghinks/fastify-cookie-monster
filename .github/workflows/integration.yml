@@ -135,4 +135,4 @@ jobs:
       - name: curl-route-hit
         run: curl 127.0.0.1:3000 --verbose -m 50 --connect-timeout 100
       - name: integration-test-suite
-        run: ./node_modules/.bin/tap integration/tests/smoke.tests.ts
+        run: tap integration/tests/smoke.tests.ts
