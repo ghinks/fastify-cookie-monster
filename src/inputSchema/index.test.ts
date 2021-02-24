@@ -1,5 +1,6 @@
 import tap from "tap";
-import verify from "./index";
+import verify, { CookieAggregation } from "./index";
+import { ConfigOptions } from "./index";
 
 tap.test("Validate Inputs Against Schema", (t) => {
   const validOptions = {
@@ -10,6 +11,6 @@ tap.test("Validate Inputs Against Schema", (t) => {
   const invalidOptions = {
     buckets: [100, 200, 300],
   };
-  t.false(verify(invalidOptions));
+  t.false(verify(<ConfigOptions>invalidOptions));
   t.end();
 });

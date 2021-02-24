@@ -1,4 +1,4 @@
-import fp from "fastify-plugin";
+import fp, { PluginOptions } from "fastify-plugin";
 import validateInput, { schema, ConfigOptions } from "./inputSchema";
 import myfunction from "./monitor";
 import { FastifyInstance, FastifyPluginCallback } from "fastify";
@@ -19,7 +19,7 @@ const myplugin: FastifyPluginCallback<ConfigOptions> = (
   }
 
   fastify.log.info(`Options ${JSON.stringify(options)}`);
-  const config: ConfigOptions = options as ConfigOptions;
+  // const config: ConfigOptions = options as ConfigOptions;
   fastify.decorate("util", myfunction);
   done();
 };

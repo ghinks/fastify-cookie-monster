@@ -1,17 +1,14 @@
-const cookieMonsterPlugin = require("../dist/index");
 const fastify = require("fastify")({
   logger: true,
 });
-
-const cmConf = {
+fastify.register(require("fastify-cookie")).register(require("../dist/index"), {
   interval: 3600,
   buckets: [100, 250, 500, 1000],
-};
-fastify.register(cookieMonsterPlugin, cmConf);
+});
 
 // Declare a route
 fastify.get("/", function (request, reply) {
-  fastify.log.info(fastify.util("============================="));
+  fastify.log.error(fastify.util("============================="));
   reply.send({ hello: "world" });
 });
 
