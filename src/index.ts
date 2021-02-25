@@ -1,7 +1,8 @@
-import fp, { PluginOptions } from "fastify-plugin";
+import fp, { PluginMetadata, PluginOptions } from "fastify-plugin";
 import validateInput, { schema, ConfigOptions } from "./inputSchema";
 import myfunction from "./monitor";
 import { FastifyInstance, FastifyPluginCallback } from "fastify";
+import { cookieAggregator } from "./cookieAggregator";
 
 const myplugin: FastifyPluginCallback<ConfigOptions> = (
   fastify: FastifyInstance,
@@ -19,9 +20,18 @@ const myplugin: FastifyPluginCallback<ConfigOptions> = (
   }
 
   fastify.log.info(`Options ${JSON.stringify(options)}`);
-  // const config: ConfigOptions = options as ConfigOptions;
+  fastify.addHook("onRequest", cookieAggregator(fastify, options));
   fastify.decorate("util", myfunction);
   done();
 };
 
-module.exports = fp(myplugin);
+const options: PluginMetadata = {
+  fastify: "3.x",
+  name: "fastify-cookie-monster",
+  dependencies: ["fastify-cookie"],
+  decorators: {
+    request: ["cookies"],
+  },
+};
+
+module.exports = fp(myplugin, options);

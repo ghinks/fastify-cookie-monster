@@ -43,7 +43,6 @@ const schema = S.object()
   .prop("buckets", S.array().minItems(0).items(S.number()).required())
   .valueOf();
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 const validateInput = (input: ConfigOptions): boolean => {
   const ajv = new Ajv({ allErrors: true });
   const validate = ajv.compile(schema.valueOf());
