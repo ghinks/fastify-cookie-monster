@@ -62,7 +62,7 @@ export class CookieAggregation {
     this.buckets.push(bucket);
     return this.buckets;
   }
-  dropInBucket(request: FastifyRequest<{}>) {
+  dropInBucket(request: FastifyRequest): void {
     let k: keyof typeof request.cookies;
     for (k in request.cookies) {
       const cookieSz = request.cookies[k].length;

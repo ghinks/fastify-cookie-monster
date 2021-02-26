@@ -1,5 +1,5 @@
 import { ConfigOptions } from "../inputSchema";
-import { Bucket, createBuckets, CookieAggregation } from "../buckets";
+import { Bucket, createBuckets } from "../buckets";
 import {
   FastifyRequest,
   FastifyInstance,
@@ -12,14 +12,13 @@ declare module "fastify" {
     cookies: { [cookieName: string]: string };
   }
 }
-
 export const cookieAggregator = (
   fastify: FastifyInstance,
   options: ConfigOptions
 ) => {
   const aggregation = createBuckets(options);
   const aggregator = (
-    request: FastifyRequest<{}>,
+    request: FastifyRequest,
     response: FastifyReply,
     done: HookHandlerDoneFunction
   ) => {
