@@ -6,37 +6,6 @@ export interface ConfigOptions {
   buckets: number[];
 }
 
-export class Bucket {
-  boundary: number;
-  count: number;
-
-  constructor(boundary: number) {
-    this.boundary = boundary;
-    this.count = 0;
-  }
-  increment(): number {
-    ++this.count;
-    return this.count;
-  }
-  getBoundary(): number {
-    return this.boundary;
-  }
-  getCount(): number {
-    return this.count;
-  }
-}
-
-export class CookieAggregation {
-  buckets: Bucket[];
-  constructor() {
-    this.buckets = [];
-  }
-  addBucket(bucket: Bucket): Bucket[] {
-    this.buckets.push(bucket);
-    return this.buckets;
-  }
-}
-
 const schema = S.object()
   .id("fastify-cookie-monster")
   .prop("interval", S.number().required())

@@ -1,5 +1,5 @@
 import tap from "tap";
-import verify, { CookieAggregation } from "./index";
+import verify from "./index";
 import { ConfigOptions } from "./index";
 
 tap.test("Validate Inputs Against Schema", (t) => {

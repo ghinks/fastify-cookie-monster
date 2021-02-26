@@ -1,4 +1,5 @@
-import { Bucket, ConfigOptions, CookieAggregation } from "../inputSchema";
+import { ConfigOptions } from "../inputSchema";
+import { Bucket, createBuckets, CookieAggregation } from "../buckets";
 import {
   FastifyRequest,
   FastifyInstance,
@@ -12,14 +13,6 @@ declare module "fastify" {
   }
 }
 
-export const createBuckets = (config: ConfigOptions): CookieAggregation => {
-  const cookieAgg = new CookieAggregation();
-  for (const i of config.buckets) {
-    cookieAgg.addBucket(new Bucket(i));
-  }
-  return cookieAgg;
-};
-
 export const cookieAggregator = (
   fastify: FastifyInstance,
   options: ConfigOptions
@@ -30,14 +23,16 @@ export const cookieAggregator = (
     response: FastifyReply,
     done: HookHandlerDoneFunction
   ) => {
-    let k: keyof typeof request.cookies;
-    for (k in request.cookies) {
-      aggregation.buckets[0].increment();
+    aggregation.dropInBucket(request);
+    aggregation.buckets.forEach((b: Bucket) => {
       fastify.log.info(
-        `Number of cookies so far is ${k}  ${aggregation.buckets[0].getCount()}`
+        `Number of cookies so far is 
+${b.getLowerBoundary()} <= x < ${b.getUpperBoundary()}  ${b.getCount()}        
+average is ${b.getAverage()}
+worst was ${b.getLargestName()} ${b.getLargest()}
+`
       );
-    }
-
+    });
     done();
   };
   return aggregator;

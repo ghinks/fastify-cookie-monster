@@ -2,7 +2,7 @@ import fp, { PluginMetadata, PluginOptions } from "fastify-plugin";
 import validateInput, { schema, ConfigOptions } from "./inputSchema";
 import myfunction from "./monitor";
 import { FastifyInstance, FastifyPluginCallback } from "fastify";
-import { cookieAggregator } from "./cookieAggregator";
+import { cookieAggregator } from "./plugin";
 
 const myplugin: FastifyPluginCallback<ConfigOptions> = (
   fastify: FastifyInstance,

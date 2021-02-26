@@ -3,7 +3,7 @@ const fastify = require("fastify")({
 });
 fastify.register(require("fastify-cookie")).register(require("../dist/index"), {
   interval: 3600,
-  buckets: [100, 250, 500, 1000],
+  buckets: [10, 20, 50, 100],
 });
 
 // Declare a route
