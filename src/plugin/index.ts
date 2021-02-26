@@ -12,10 +12,16 @@ declare module "fastify" {
     cookies: { [cookieName: string]: string };
   }
 }
+type myaggregator = (
+  request: FastifyRequest,
+  response: FastifyReply,
+  done: HookHandlerDoneFunction
+) => void;
+
 export const cookieAggregator = (
   fastify: FastifyInstance,
   options: ConfigOptions
-) => {
+): myaggregator => {
   const aggregation = createBuckets(options);
   const aggregator = (
     request: FastifyRequest,
