@@ -1,3 +1,3 @@
-const myfunction = (text: string): string => text;
+const myfunction = (text: string): string => text
 
-export default myfunction;
+export default myfunction
