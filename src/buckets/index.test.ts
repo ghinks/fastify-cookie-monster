@@ -59,7 +59,21 @@ tap.test("Cookie Aggregation", (t) => {
     t.equal(aggregation.buckets[0].addToBucket("cookie2", 1), 2);
     t.equal(aggregation.buckets[0].getLargest(), 5);
     t.equal(aggregation.buckets[0].getLargestName(), "cookie1");
-    t.equal(aggregation.buckets[0].getAverage(), 3);
+    t.end();
+  });
+  t.test("average gets updated", (t) => {
+    const config = {
+      interval: 10000,
+      buckets: [100, 200, 1000],
+    };
+    const aggregation = createBuckets(config);
+    t.equal(aggregation.buckets[0].addToBucket("cookie1", 5), 1);
+    t.equal(aggregation.buckets[0].addToBucket("cookie2", 3), 2);
+    t.equal(aggregation.buckets[0].addToBucket("cookie3", 1), 3);
+    t.equal(aggregation.buckets[0].addToBucket("cookie4", 1), 4);
+    t.equal(aggregation.buckets[0].addToBucket("cookie5", 1), 5);
+    t.equal(aggregation.buckets[0].addToBucket("cookie5", 1), 6);
+    t.equal(aggregation.buckets[0].getAverage(), 2);
     t.end();
   });
   t.test("test drop in bucket", (t) => {
