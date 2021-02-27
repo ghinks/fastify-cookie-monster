@@ -1,6 +1,13 @@
 import { ConfigOptions } from "../inputSchema";
 import { FastifyRequest } from "fastify";
 
+declare module "fastify" {
+  interface FastifyRequest {
+    cookies: {
+      [cookieName: string]: string;
+    };
+  }
+}
 export class Bucket {
   private upperBoundary: number;
   private lowerBoundary: number;

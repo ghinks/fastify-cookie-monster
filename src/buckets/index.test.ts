@@ -1,5 +1,6 @@
 import tap from "tap";
 import { createBuckets } from "./index";
+import { FastifyRequest } from "fastify";
 
 tap.test("Cookie Aggregation", (t) => {
   t.test("Can Create Buckets", (t) => {
@@ -46,6 +47,33 @@ tap.test("Cookie Aggregation", (t) => {
     };
     const aggregation = createBuckets(config);
     t.equal(aggregation.buckets[3].addToBucket("cookie", 500000000), 1);
+    t.end();
+  });
+  t.test("largest in bucket gets updated", (t) => {
+    const config = {
+      interval: 10000,
+      buckets: [100, 200, 1000],
+    };
+    const aggregation = createBuckets(config);
+    t.equal(aggregation.buckets[0].addToBucket("cookie1", 5), 1);
+    t.equal(aggregation.buckets[0].addToBucket("cookie2", 1), 2);
+    t.equal(aggregation.buckets[0].getLargest(), 5);
+    t.equal(aggregation.buckets[0].getLargestName(), "cookie1");
+    t.equal(aggregation.buckets[0].getAverage(), 3);
+    t.end();
+  });
+  t.test("test drop in bucket", (t) => {
+    const requestWithCookies = {
+      cookies: {
+        "cookie-name": "cookie-value",
+      },
+    };
+    const config = {
+      interval: 10000,
+      buckets: [100, 200, 1000],
+    };
+    const aggregation = createBuckets(config);
+    aggregation.dropInBucket((requestWithCookies as unknown) as FastifyRequest);
     t.end();
   });
   t.end();
