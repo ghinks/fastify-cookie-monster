@@ -117,3 +117,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 useful-commands.md
+todo.md
