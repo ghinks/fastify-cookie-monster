@@ -1,13 +1,14 @@
-const myplugin = require("../dist/index");
 const fastify = require("fastify")({
   logger: true,
 });
-
-fastify.register(myplugin);
+fastify.register(require("fastify-cookie")).register(require("../dist/index"), {
+  interval: 3600,
+  buckets: [10, 20, 50, 100],
+});
 
 // Declare a route
 fastify.get("/", function (request, reply) {
-  fastify.log.info(fastify.util("============================="));
+  fastify.log.error(fastify.util("============================="));
   reply.send({ hello: "world" });
 });
 

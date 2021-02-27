@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "test": "tap src/**/*.test.ts",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "eslint": "^7.20.0",
     "fastify": "^3.12.0",
     "husky": "^4.3.8",
+    "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
     "tap": "^14.11.0",
@@ -39,7 +41,10 @@
     "undici": "^3.3.3"
   },
   "dependencies": {
-    "fastify-plugin": "^3.0.0"
+    "ajv": "^7.1.1",
+    "fastify-cookie": "^5.1.0",
+    "fastify-plugin": "^3.0.0",
+    "fluent-json-schema": "^2.0.4"
   },
   "husky": {
     "hooks": {
