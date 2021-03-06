@@ -8,7 +8,6 @@ fastify.register(require("fastify-cookie")).register(require("../dist/index"), {
 
 // Declare a route
 fastify.get("/", function (request, reply) {
-  fastify.log.error(fastify.util("============================="));
   reply.send({ hello: "world" });
 });
 
@@ -19,4 +18,9 @@ fastify.listen(3000, function (err, address) {
     process.exit(1);
   }
   fastify.log.info(`server listening on ${address}`);
+  setInterval(() => {
+    fastify.log.info(
+      `${fastify.cookieAggregation.getBuckets().map((b) => JSON.stringify(b))}`
+    );
+  }, 5000);
 });

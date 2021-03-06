@@ -8,55 +8,48 @@ declare module "fastify" {
     };
   }
 }
+
+type BucketData = {
+  upperBoundary: number;
+  lowerBoundary: number;
+  count: number;
+  average: number;
+  largest: number;
+  largestName: string;
+};
+
 export class Bucket {
-  private upperBoundary: number;
-  private lowerBoundary: number;
-  private count: number;
-  private average: number;
-  private largest: number;
-  private largestName: string;
+  private data: BucketData;
 
   constructor(lowerBoundary: number, upperBoundary: number) {
-    this.lowerBoundary = lowerBoundary;
-    this.upperBoundary = upperBoundary;
-    this.count = 0;
-    this.average = 0;
-    this.largest = 0;
-    this.largestName = "";
+    this.data = {
+      lowerBoundary,
+      upperBoundary,
+      count: 0,
+      average: 0,
+      largest: 0,
+      largestName: "",
+    };
   }
   addToBucket(name: string, size: number): number {
-    ++this.count;
-    this.average = this.average + (1 / this.count) * (size - this.average);
-    if (size >= this.largest) {
-      this.largest = size;
-      this.largestName = name;
+    ++this.data.count;
+    this.data.average =
+      this.data.average + (1 / this.data.count) * (size - this.data.average);
+    if (size >= this.data.largest) {
+      this.data.largest = size;
+      this.data.largestName = name;
     }
-    return this.count;
-  }
-  getLargest(): number {
-    return this.largest;
-  }
-  getLargestName(): string {
-    return this.largestName;
-  }
-  getUpperBoundary(): number {
-    return this.upperBoundary;
-  }
-  getLowerBoundary(): number {
-    return this.lowerBoundary;
-  }
-  getCount(): number {
-    return this.count;
-  }
-  getAverage(): number {
-    return this.average;
+    return this.data.count;
   }
   fitsBucket(size: number): boolean {
     // last bucket is lowerbound, -1
-    if (this.upperBoundary > 0) {
-      return this.lowerBoundary <= size && size < this.upperBoundary;
+    if (this.data.upperBoundary > 0) {
+      return this.data.lowerBoundary <= size && size < this.data.upperBoundary;
     }
-    return size >= this.lowerBoundary;
+    return size >= this.data.lowerBoundary;
+  }
+  getData(): BucketData {
+    return this.data;
   }
 }
 
@@ -80,9 +73,14 @@ export class CookieAggregation {
       });
     }
   }
+  getBuckets(): BucketData[] {
+    return this.buckets.map((b) => b.getData());
+  }
 }
 
-export const createBuckets = (config: ConfigOptions): CookieAggregation => {
+export const createBucketAggregation = (
+  config: ConfigOptions
+): CookieAggregation => {
   const cookieAgg = new CookieAggregation();
   const orderedBuckets = config.buckets.sort((a, b) => a - b);
   let last = 0;
