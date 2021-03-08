@@ -1,6 +1,5 @@
-import fp, { PluginMetadata, PluginOptions } from "fastify-plugin";
+import fp, { PluginMetadata } from "fastify-plugin";
 import validateInput, { schema, ConfigOptions } from "./inputSchema";
-import myfunction from "./monitor";
 import { FastifyInstance, FastifyPluginCallback } from "fastify";
 import { cookieAggregator } from "./plugin";
 
@@ -21,7 +20,6 @@ const myplugin: FastifyPluginCallback<ConfigOptions> = (
 
   fastify.log.info(`Options ${JSON.stringify(options)}`);
   fastify.addHook("onRequest", cookieAggregator(fastify, options));
-  fastify.decorate("util", myfunction);
   done();
 };
 

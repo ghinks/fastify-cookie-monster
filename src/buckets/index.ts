@@ -1,6 +1,3 @@
-import { ConfigOptions } from "../inputSchema";
-import { FastifyRequest } from "fastify";
-
 declare module "fastify" {
   interface FastifyRequest {
     cookies: {
@@ -9,7 +6,7 @@ declare module "fastify" {
   }
 }
 
-type BucketData = {
+export type BucketData = {
   upperBoundary: number;
   lowerBoundary: number;
   count: number;
@@ -52,43 +49,3 @@ export class Bucket {
     return this.data;
   }
 }
-
-export class CookieAggregation {
-  buckets: Bucket[];
-  constructor() {
-    this.buckets = [];
-  }
-  addBucket(bucket: Bucket): Bucket[] {
-    this.buckets.push(bucket);
-    return this.buckets;
-  }
-  dropInBucket(request: FastifyRequest): void {
-    let k: keyof typeof request.cookies;
-    for (k in request.cookies) {
-      const cookieSz = request.cookies[k].length;
-      this.buckets.forEach((bucket: Bucket) => {
-        if (bucket.fitsBucket(cookieSz)) {
-          bucket.addToBucket(k as string, cookieSz);
-        }
-      });
-    }
-  }
-  getBuckets(): BucketData[] {
-    return this.buckets.map((b) => b.getData());
-  }
-}
-
-export const createBucketAggregation = (
-  config: ConfigOptions
-): CookieAggregation => {
-  const cookieAgg = new CookieAggregation();
-  const orderedBuckets = config.buckets.sort((a, b) => a - b);
-  let last = 0;
-  for (const i of orderedBuckets) {
-    cookieAgg.addBucket(new Bucket(last, i));
-    last = i;
-  }
-  // create a catch all bucket > last number
-  cookieAgg.addBucket(new Bucket(last, -1));
-  return cookieAgg;
-};

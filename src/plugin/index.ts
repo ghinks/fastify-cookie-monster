@@ -1,5 +1,5 @@
 import { ConfigOptions } from "../inputSchema";
-import { createBucketAggregation } from "../buckets";
+import { createBucketAggregation } from "../bucketList";
 import {
   FastifyRequest,
   FastifyInstance,
