@@ -19,8 +19,6 @@ fastify.listen(3000, function (err, address) {
   }
   fastify.log.info(`server listening on ${address}`);
   setInterval(() => {
-    fastify.log.info(
-      `${fastify.cookieAggregation.getBuckets().map((b) => JSON.stringify(b))}`
-    );
+    fastify.cookieAggregation.getBuckets().forEach((b) => fastify.log.info(b));
   }, 5000);
 });

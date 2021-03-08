@@ -1,5 +1,5 @@
 {
-  "name": "@gvhinks/fastify-cookie-monster",
+  "name": "@gvhinks/fastify-cookie-muncher",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://github.com:ghinks/fastify-cookie-monster.git"
+    "url": "git+ssh://github.com:ghinks/fastify-cookie-muncher.git"
   },
   "keywords": [
     "fastify",
@@ -19,7 +19,7 @@
     "statistics",
     "size"
   ],
-  "homepage": "https://github.com/ghinks/fastify-cookie-monster#readme",
+  "homepage": "https://github.com/ghinks/fastify-cookie-muncher#readme",
   "author": "Glenn Hinks <ghinks@yahoo.com>",
   "license": "MIT",
   "devDependencies": {
