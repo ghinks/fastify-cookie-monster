@@ -130,5 +130,9 @@ jobs:
           node-version: 14.x
       - name: npm install
         run: npm ci
+      - name: sleepy
+        run: sleep 60
+      - name: curl-route-hit
+        run: curl 127.0.0.1:3000 --verbose -m 50 --connect-timeout 100
       - name: integration-test-suite
         run: ./node_modules/.bin/tap --no-coverage integration/tests/smoke.tests.ts
