@@ -131,6 +131,6 @@ jobs:
       - name: npm install
         run: npm ci
       - name: curl-route-hit
-        run: curl localhost:3000 --verbose -m 50 --connect-timeout 100
+        run: curl 127.0.0.1:3000 --verbose -m 50 --connect-timeout 100 --fail
       - name: integration-test-suite
         run: ./node_modules/.bin/tap --no-coverage integration/tests/smoke.tests.ts
