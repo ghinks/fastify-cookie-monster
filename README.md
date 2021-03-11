@@ -1,15 +1,14 @@
-# fastify cookie monster
+# fastify cookie muncher
 
-Keeping track of all the cookies that pass through your application is a routine activity. This may need to take place
-in order to record the size of cookies or the number of them. A means to simply log some statistics about the cookies
-being passed is provided by fastify cookie monster.
+Keeping track of any egregious cookies that pass through your application is occasionally necessary. A means to simply
+aggregate some statistics about the cookies being passed is provided by fastify cookie muncher.
 
 interval Thursday 2nd March 2025 9:00:00 - Thursday 2nd March 2025 10:00:00, 1 hour
 
-| bucket 1 | bucket 2 | bucket 3 | bucket 4 | bucket 5  | bucket 6 |
-| -------- | -------- | -------- | -------- | --------- | -------- |
-| 0-99     | 100-199  | 200-499  | 500-999  | 1000-1499 | \>1500   |
-| 10       | 20       | 5        | 2        | 1         | 0        |
+| bucket 1 | bucket 2 | bucket 3 | bucket 4 | bucket 5 |
+| -------- | -------- | -------- | -------- | -------- |
+| 0-9      | 10-19    | 20-49    | 50-99    | \>100    |
+| 10       | 20       | 5        | 2        | 1        |
 
 largest cookie length 1234
 
@@ -17,25 +16,85 @@ largest cookie length 1234
 
 ```javascript
 const fastify = require("fastify");
-const fcm = require("@gvhinks/fastify-cookie-monster").default;
+const fcm = require("@gvhinks/fastify-cookie-muncher").default;
 fastify.register(fcm, {
-  interval: 3600, // seconds in an hour
-  buckets: [100, 200, 500, 1000, 1500],
+  buckets: [10, 20, 50, 100],
 });
 ```
 
-This will log out the aggregate cookie sizes over every hour in buckets
+This will decorate the fastify object with a _cookieAggregation_ object that provides services.
 
-| bucket 1 | bucket 2 | bucket 3 | bucket 4 | bucket 5  | bucket 6 |
-| -------- | -------- | -------- | -------- | --------- | -------- |
-| 0-99     | 100-199  | 200-499  | 500-999  | 1000-1499 | \>1500   |
+Currently only getBuckets is implemented. This will return an array.
+
+```javascript
+const buckets = fastify.cookieAggregation.getBuckets();
+```
+
+with each bucket containing an object
+
+```typescript
+export type BucketData = {
+  upperBoundary: number;
+  lowerBoundary: number;
+  count: number;
+  average: number;
+  largest: number;
+  largestName: string;
+};
+```
+
+output
+
+```json
+({
+  "lowerBoundary": 0,
+  "upperBoundary": 10,
+  "count": 0,
+  "average": 0,
+  "largest": 0,
+  "largestName": ""
+},
+{
+  "lowerBoundary": 10,
+  "upperBoundary": 20,
+  "count": 0,
+  "average": 0,
+  "largest": 0,
+  "largestName": ""
+},
+{
+  "lowerBoundary": 20,
+  "upperBoundary": 50,
+  "count": 1,
+  "average": 24,
+  "largest": 24,
+  "largestName": "USER_TOKEN"
+},
+{
+  "lowerBoundary": 50,
+  "upperBoundary": 100,
+  "count": 0,
+  "average": 0,
+  "largest": 0,
+  "largestName": ""
+},
+{
+  "lowerBoundary": 100,
+  "upperBoundary": -1,
+  "count": 0,
+  "average": 0,
+  "largest": 0,
+  "largestName": ""
+})
+```
+
+The buckets will be sequential. The catch all bucket will have an upper boundary of -1 to signify infinity.
 
 ## options
 
-| option name | description                                                                   |
-| ----------- | ----------------------------------------------------------------------------- |
-| interval    | The duration over which statistics are gathered                               |
-| the buckets | the aggregation buckets defaults are 0-100, 101-500,501-1000,1001-2000, >2001 |
+| option name | description                                         |
+| ----------- | --------------------------------------------------- |
+| the buckets | an array of buckets with the upper bounds specified |
 
 The intent is to track the aggregation over the duration of the interval and log out the results.
 

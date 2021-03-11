@@ -59,8 +59,8 @@ jobs:
       - name: create-tar-ball-artifact
         uses: actions/upload-artifact@v2
         with:
-          name: gvhinks-fastify-cookie-monster-tar-ball
-          path: "gvhinks-fastify-cookie-monster-${{ steps.extract_version.outputs.version }}.tgz"
+          name: gvhinks-fastify-cookie-muncher-tar-ball
+          path: "gvhinks-fastify-cookie-muncher-${{ steps.extract_version.outputs.version }}.tgz"
 
       ##################################################
       #
@@ -76,7 +76,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           password: ${{ secrets.DOCKER_REGISTRY_FASTIFY }}
-          repository: ${{ secrets.DOCKER_REGISTRY_USERNAME }}/fastify-cookie-monster-store
+          repository: ${{ secrets.DOCKER_REGISTRY_USERNAME }}/fastify-cookie-muncher-store
           registry: registry.hub.docker.com
           tags: latest
           dockerfile: Dockerfile.integration
@@ -99,7 +99,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          repository: ghinks/fastify-cookie-monster/fastify-cookie-monster-store
+          repository: ghinks/fastify-cookie-muncher/fastify-cookie-muncher-store
           registry: docker.pkg.github.com
           tags: latest
           dockerfile: Dockerfile.integration
@@ -120,7 +120,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       fastify:
-        image: ghinks/fastify-cookie-monster-store
+        image: ghinks/fastify-cookie-muncher-store
         ports:
           - 3000:3000
     steps:
@@ -130,6 +130,8 @@ jobs:
           node-version: 14.x
       - name: npm install
         run: npm ci
+      - name: sleepy
+        run: sleep 120
       - name: curl-route-hit
         run: curl 127.0.0.1:3000 --verbose -m 50 --connect-timeout 100
       - name: integration-test-suite
