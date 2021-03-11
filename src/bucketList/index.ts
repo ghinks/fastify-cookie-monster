@@ -43,6 +43,6 @@ export const createBucketAggregation = (config: ConfigOptions): BucketList => {
     last = i;
   }
   // create a catch all bucket > last number
-  cookieAgg.addBucket(new Bucket(last, -1));
+  cookieAgg.addBucket(new Bucket(last, Number.MAX_SAFE_INTEGER));
   return cookieAgg;
 };
