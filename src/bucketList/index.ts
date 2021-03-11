@@ -31,6 +31,12 @@ export class BucketList {
 export const createBucketAggregation = (config: ConfigOptions): BucketList => {
   const cookieAgg = new BucketList();
   const orderedBuckets = config.buckets.sort((a, b) => a - b);
+  // check on daft numbers
+  orderedBuckets.forEach((n: number) => {
+    if (n > Number.MAX_SAFE_INTEGER) {
+      throw new Error("integer out of range");
+    }
+  });
   let last = 0;
   for (const i of orderedBuckets) {
     cookieAgg.addBucket(new Bucket(last, i));
