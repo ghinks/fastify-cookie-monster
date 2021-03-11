@@ -22,6 +22,12 @@ export class Bucket {
   private data: BucketData;
 
   constructor(lowerBoundary: number, upperBoundary: number) {
+    if (
+      upperBoundary > Number.MAX_SAFE_INTEGER ||
+      lowerBoundary > Number.MAX_SAFE_INTEGER
+    ) {
+      throw new Error("integer out of range");
+    }
     this.data = {
       lowerBoundary,
       upperBoundary,
@@ -32,6 +38,9 @@ export class Bucket {
     };
   }
   addToBucket(name: string, size: number): number {
+    if (this.data.count === Number.MAX_SAFE_INTEGER) {
+      this.data.count = 0;
+    }
     ++this.data.count;
     this.data.average =
       this.data.average + (1 / this.data.count) * (size - this.data.average);
@@ -42,11 +51,7 @@ export class Bucket {
     return this.data.count;
   }
   fitsBucket(size: number): boolean {
-    // last bucket is lowerbound, -1
-    if (this.data.upperBoundary > 0) {
-      return this.data.lowerBoundary <= size && size < this.data.upperBoundary;
-    }
-    return size >= this.data.lowerBoundary;
+    return this.data.lowerBoundary <= size && size < this.data.upperBoundary;
   }
   getData(): BucketData {
     return this.data;

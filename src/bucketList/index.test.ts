@@ -3,9 +3,17 @@ import { createBucketAggregation } from "./index";
 import { FastifyRequest } from "fastify";
 
 tap.test("Cookie Aggregation", (t) => {
+  t.test("Cannot Create Bucket List with out of range values", (t) => {
+    const config = {
+      buckets: [Number.MAX_SAFE_INTEGER + 1],
+    };
+    t.throws(function () {
+      createBucketAggregation(config);
+    });
+    t.end();
+  });
   t.test("Can Create Buckets", (t) => {
     const config = {
-      interval: 10000,
       buckets: [100, 200, 1000],
     };
     const aggregation = createBucketAggregation(config);
@@ -14,7 +22,6 @@ tap.test("Cookie Aggregation", (t) => {
   });
   t.test("Can add to a Bucket", (t) => {
     const config = {
-      interval: 10000,
       buckets: [100, 200, 1000],
     };
     const aggregation = createBucketAggregation(config);
@@ -24,7 +31,6 @@ tap.test("Cookie Aggregation", (t) => {
   });
   t.test("Can get properties", (t) => {
     const config = {
-      interval: 10000,
       buckets: [100, 200, 1000],
     };
     const aggregation = createBucketAggregation(config);
@@ -43,7 +49,6 @@ tap.test("Cookie Aggregation", (t) => {
   });
   t.test("Extreme size gets put in end bucket", (t) => {
     const config = {
-      interval: 10000,
       buckets: [100, 200, 1000],
     };
     const aggregation = createBucketAggregation(config);
@@ -52,7 +57,6 @@ tap.test("Cookie Aggregation", (t) => {
   });
   t.test("largest in bucket gets updated", (t) => {
     const config = {
-      interval: 10000,
       buckets: [100, 200, 1000],
     };
     const aggregation = createBucketAggregation(config);
@@ -64,7 +68,6 @@ tap.test("Cookie Aggregation", (t) => {
   });
   t.test("average gets updated", (t) => {
     const config = {
-      interval: 10000,
       buckets: [100, 200, 1000],
     };
     const aggregation = createBucketAggregation(config);
@@ -84,7 +87,6 @@ tap.test("Cookie Aggregation", (t) => {
       },
     };
     const config = {
-      interval: 10000,
       buckets: [100, 200, 1000],
     };
     const aggregation = createBucketAggregation(config);

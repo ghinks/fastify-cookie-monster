@@ -27,12 +27,17 @@ tap.test("Buckets", (t) => {
     t.equal(bucket.getData().largest, 11);
     t.end();
   });
-  t.test("Can Create with no upper range", (t) => {
-    const bucket = new Bucket(upperBoundary, -1);
+  t.test("Can Create with max upper range", (t) => {
+    const bucket = new Bucket(upperBoundary, Number.MAX_SAFE_INTEGER);
     t.true(bucket.fitsBucket(101));
     t.end();
   });
-
+  t.test("Cannot Create with out of bounds range", (t) => {
+    t.throws(function () {
+      new Bucket(upperBoundary, Number.MAX_SAFE_INTEGER + 1);
+    });
+    t.end();
+  });
   t.test("Can get Data", (t) => {
     const bucket = new Bucket(lowerBoundary, upperBoundary);
     bucket.addToBucket("mycookie", 10);
@@ -44,6 +49,15 @@ tap.test("Buckets", (t) => {
       largest: 10,
       largestName: "mycookie",
     });
+    t.end();
+  });
+  // highly unlikely case, but test wrapping of the count works
+  t.test("Max num boundary wrap", (t) => {
+    const bucket = new Bucket(lowerBoundary, upperBoundary);
+    bucket.getData().count = Number.MAX_SAFE_INTEGER;
+    t.equal(bucket.getData().count, Number.MAX_SAFE_INTEGER);
+    bucket.addToBucket("mycookie", 10);
+    t.equal(bucket.getData().count, 1);
     t.end();
   });
   t.end();
