@@ -7,8 +7,8 @@ fastify.register(myplugin);
 
 // Declare a route
 fastify.get("/", function (request, reply) {
-  fastify.log.info(fastify.util("============================="));
-  reply.send({ hello: "world" });
+  const buckets = fastify.cookieAggregation.getBuckets();
+  reply.send(buckets);
 });
 
 // Run the server!

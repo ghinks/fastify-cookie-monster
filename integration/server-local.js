@@ -1,14 +1,15 @@
+const table = require("table").table;
 const fastify = require("fastify")({
   logger: true,
 });
 fastify.register(require("fastify-cookie")).register(require("../dist/index"), {
-  interval: 3600,
-  buckets: [10, 20, 50, 100],
+  buckets: [10, 20, 50, 100, 1000],
 });
 
 // Declare a route
 fastify.get("/", function (request, reply) {
-  reply.send({ hello: "world" });
+  const buckets = fastify.cookieAggregation.getBuckets();
+  reply.send(buckets);
 });
 
 // Run the server!
@@ -18,7 +19,17 @@ fastify.listen(3000, function (err, address) {
     process.exit(1);
   }
   fastify.log.info(`server listening on ${address}`);
+  /*
   setInterval(() => {
-    fastify.cookieAggregation.getBuckets().forEach((b) => fastify.log.info(b));
+    const buckets = fastify.cookieAggregation.getBuckets();
+    const tabulated = buckets.reduce( (a, c) => {
+      const formated = [c.lowerBoundary, c.upperBoundary, c.average, c.largest];
+      return [...a, formated]
+    }, [["lower", "upper", "avg", "largest"]])
+    const output = table(tabulated, {
+
+    });
+    console.log(output)
   }, 5000);
+   */
 });
